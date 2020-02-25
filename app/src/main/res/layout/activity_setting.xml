@@ -1,9 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.setting_activity.SettingActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="1. Địa chỉ API (*)"
+            android:textColor="#0083B0"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtAPI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_input"
+            android:gravity="top"
+            android:hint="Địa chỉ để ứng dụng gửi nội dung tin nhắn đến. VD: http://yourdomain.com/api/sync-sms"
+            android:lines="5"
+            android:padding="20dp" />
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:paddingTop="20dp"-->
+        <!--            android:paddingBottom="20dp"-->
+        <!--            android:text="2. Lọc đầu số"-->
+        <!--            android:textColor="#0083B0"-->
+        <!--            android:textSize="24sp"-->
+        <!--            android:textStyle="bold" />-->
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/edtPhoneFilter"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/round_input"-->
+        <!--            android:gravity="top"-->
+        <!--            android:hint="Bỏ trống để lấy tất cả tin nhắn đến. Hoặc nhập các đầu số quan tâm vào đây và phân cách bởi dấu phẩy. VD: 885,3456,123"-->
+        <!--            android:lines="5"-->
+        <!--            android:padding="20dp" />-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="2. Mã bí mật để gửi tin"
+            android:textColor="#ED213A"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtSecureCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_input"
+            android:gravity="top"
+            android:hint="Mã kèm theo gói tin HTTP POST khi truyền tin nhắn thông qua API ở trên. Chi tiết xem bên dưới."
+            android:lines="5"
+            android:padding="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#FFF"
+            android:padding="20dp"
+            android:text="@string/req_body"
+            android:textColor="#0083B0"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnSaveSetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_info"
+            android:text="Lưu Thay đổi"
+            android:textColor="#FFF" />
+
+        <Button
+            android:id="@+id/btnStartServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_success"
+            android:text="Bắt đầu chạy ngầm"
+            android:textColor="#FFF" />
+
+        <Button
+            android:id="@+id/btnEndServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_danger"
+            android:text="Ngưng chạy ngầm"
+            android:textColor="#FFF" />
+    </LinearLayout>
+</ScrollView>

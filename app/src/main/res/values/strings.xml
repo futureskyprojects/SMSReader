@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SMSReader</string>
+    <string name="req_body"><u>REQUEST BODY:</u>\n{\n\t\t\"sender\": \"Số điện thoại gửi tin nhắn\",\n\t\t\"message\": \"Nội dung tin nhắn\",\n\t\t\"timestamp\": \"Thời gian nhận được tin nhắn\",\n\t\t\"token\": \"Mã bí mật\"\n}\nGửi thành công kỳ vọng nhận HTTP_OK (tức mã 200)</string>
 </resources>

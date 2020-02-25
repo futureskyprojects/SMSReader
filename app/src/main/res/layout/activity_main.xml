@@ -25,6 +25,13 @@
         android:padding="50dp"
         android:src="@drawable/logo" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/ivWaterMark"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
 
     <ImageView
         android:id="@+id/ivWaterMark"
@@ -33,4 +40,8 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:src="@drawable/watermark" />
+
+    <include layout="@layout/pay_money" />
+
+    <include layout="@layout/no_internet" />
 </RelativeLayout>
