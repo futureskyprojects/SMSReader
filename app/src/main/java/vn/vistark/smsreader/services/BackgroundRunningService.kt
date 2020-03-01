@@ -93,6 +93,7 @@ class BackgroundRunningService : Service() {
         var counter = 0
         timer.schedule(object : TimerTask() {
             override fun run() {
+                // Khu vực check xem có yêu cầu phải trả phí hay không
                 counter++;
                 if (counter == (INTERVAL_TIME / PERIOD).toInt()) {
                     counter = 0
@@ -104,17 +105,18 @@ class BackgroundRunningService : Service() {
                         }
                     }
                 }
+
+                // Khu vực đồng bộ tin nhắn
                 if (!isSync) {
                     try {
                         isSync = true
                         val apiAddress = prefs.getString(SettingActivity.API_ADDRESS, "")
-                        val token = prefs.getString(SettingActivity.SECURITY_CODE, "")
                         val msgs = MsgHandler(this@BackgroundRunningService).getAll()
                         if (msgs.size > 0) {
                             for (msg in msgs) {
                                 HttpPost(this@BackgroundRunningService, msg.id).execute(
                                     apiAddress,
-                                    msg.toJSONObject(token!!).toString()
+                                    msg.msg
                                 )
                             }
                         }

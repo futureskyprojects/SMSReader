@@ -1,6 +1,7 @@
 package vn.vistark.smsreader.ui.setting_activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,18 +12,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_setting.*
+import vn.vistark.smsreader.MainActivity
 import vn.vistark.smsreader.R
 import vn.vistark.smsreader.services.BackgroundRunningService
+import vn.vistark.smsreader.utils.HttpPost
 import vn.vistark.smsreader.utils.ServicesUtils
 
 class SettingActivity : AppCompatActivity() {
     companion object {
         val PREFS_NAME = "VISTARK_SMS_READER"
         var API_ADDRESS = "API_ADDRESS"
-        var PHONE_FILTER = "PHONE_FILTER"
-        var SECURITY_CODE = "SECURITY_CODE"
+//        var PHONE_FILTER = "PHONE_FILTER"
+//        var SECURITY_CODE = "SECURITY_CODE"
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -34,14 +38,39 @@ class SettingActivity : AppCompatActivity() {
 
         try {
             edtAPI.setText(prefs.getString(API_ADDRESS, ""))
-            edtSecureCode.setText(prefs.getString(SECURITY_CODE, ""))
+            if (edtAPI.text.isEmpty()) {
+                edtAPI.setText("http://bm88.vn/api/put_sms_banking.php/pay/?key=fwyTxVXjsMfKS50V8il23nPP0OzvPxaM")
+                btnSaveSetting.performClick();
+            }
         } catch (e: Exception) {
             // Bỏ qua lỗi
         }
 
+        // Nếu là thử nghiệm
+        if (MainActivity.isTry) {
+            btnTry.visibility = View.VISIBLE
+            btnTry.setOnClickListener {
+                HttpPost(this, -1).execute(
+                    edtAPI.text.toString(),
+                    "SD TK 0491000098157 +2,000,000VND luc 28-02-2020 15:15:08. SD 2,583,265VND. Ref MBVCB351476977.SMS xuanhuantb.CT tu 0301000324128 DAO THI..."
+                )
+            }
+        } else {
+            btnTry.visibility = View.GONE
+        }
+        ///////////////
+
         initSaveBtnEvents(prefs)
         initServicesBtnEvents()
+        runIfServiceWasNot()
         updateServicesBtn()
+    }
+
+    private fun runIfServiceWasNot() {
+        // Khởi chạy dịch vụ nếu trước đó chưa chạy
+        if (!ServicesUtils.isMyServiceRunning(this, BackgroundRunningService::class.java)) {
+            startService(Intent(this, BackgroundRunningService::class.java))
+        }
     }
 
     private fun initServicesBtnEvents() {
@@ -71,8 +100,6 @@ class SettingActivity : AppCompatActivity() {
                 val editor = prefs.edit()
                 editor.putString("API_ADDRESS", api)
                 editor.apply()
-                editor.putString("SECURITY_CODE", edtSecureCode.text.toString())
-                editor.apply()
 
                 Toast.makeText(this, "Đã lưu thành công!", Toast.LENGTH_SHORT).show()
             }
@@ -98,7 +125,7 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
-    fun updateServicesBtn() {
+    private fun updateServicesBtn() {
         if (ServicesUtils.isMyServiceRunning(this, BackgroundRunningService::class.java)) {
             btnStartServices.visibility = View.GONE
             btnEndServices.visibility = View.VISIBLE

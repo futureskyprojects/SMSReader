@@ -65,12 +65,11 @@ class SmsReceiver : BroadcastReceiver() {
     private fun msgProcessing(context: Context, number: String, message: String) {
         try {
             val apiAddress = prefs.getString(SettingActivity.API_ADDRESS, "")
-            val token = prefs.getString(SettingActivity.SECURITY_CODE, "")
             val msg = Msg(System.currentTimeMillis(), number, message)
             // Tiến hành đẩy lên server
             if (HttpPost(context, msg.id).execute(
                     apiAddress,
-                    msg.toJSONObject(token!!).toString()
+                    msg.msg
                 ).get()
             ) {
                 Toast.makeText(

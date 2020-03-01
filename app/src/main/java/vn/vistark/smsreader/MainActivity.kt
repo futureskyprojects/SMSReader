@@ -25,6 +25,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     companion object {
         var res = ""
+        var isTry = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             rlNoInternet.visibility = View.GONE
             // Kiểm tra thuộc tính lấy được xem người dùng có đang dùng thử hay không?
             val obj = JSONObject(res)
+            isTry = obj.getBoolean("isTry")
             if (obj.getBoolean("requestPayFee")) {
                 if (ServicesUtils.isMyServiceRunning(this, BackgroundRunningService::class.java)) {
                     // Ngắt dịch vụ đang chạy
