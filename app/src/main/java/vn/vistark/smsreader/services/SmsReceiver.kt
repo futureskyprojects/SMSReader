@@ -1,5 +1,6 @@
 package vn.vistark.smsreader.services
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -62,38 +63,32 @@ class SmsReceiver : BroadcastReceiver() {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private fun msgProcessing(context: Context, number: String, message: String) {
         try {
             val apiAddress = prefs.getString(SettingActivity.API_ADDRESS, "")
-            val msg = Msg(System.currentTimeMillis(), number, message)
-            // Tiến hành đẩy lên server
-            if (HttpPost(context, msg.id).execute(
-                    apiAddress,
-                    msg.msg
-                ).get()
-            ) {
-                Toast.makeText(
-                    context,
-                    "Đã gửi tin nhắn từ [$number] lên server",
-                    Toast.LENGTH_SHORT
-                ).show()
-                // Nếu thành công, tiến hành rung để báo
-                Vibrates.remindVibrate(context)
-            } else {
-                if (MsgHandler(context).add(msg) != (-1).toLong()) {
-                    Toast.makeText(
-                        context,
-                        "Đã lưu tin nhắn từ thuê bao [$number] để xử lý sau",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Vibrates.remindVibrate(context)
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Không xử lý được tin nhắn từ [$number], vui lòng thao tác bằng tay",
-                        Toast.LENGTH_LONG
-                    ).show()
+            val phoneFilter = prefs.getString(SettingActivity.PHONE_FILTER, "")
+            var isMatched = false
+            if (phoneFilter != null && !phoneFilter.isEmpty() && phoneFilter.isNotEmpty()) {
+                val list = phoneFilter.split(",")
+                for (p in list) {
+                    if ((p.toLowerCase().contains(number.toLowerCase()) ||
+                                number.toLowerCase().contains(p.toLowerCase())) && p.isNotBlank() && number.isNotBlank()
+                    ) {
+                        isMatched = true
+                    }
                 }
+            } else {
+                isMatched = true
+            }
+            if (isMatched) {
+                val msg = Msg(System.currentTimeMillis(), number, message)
+                // Tiến hành đẩy lên server
+                Vibrates.remindVibrate(context)
+                // xử lý và đẩy tin lên server
+                HttpPost(context, msg).execute(
+                    apiAddress
+                )
             }
         } catch (e: Exception) {
 

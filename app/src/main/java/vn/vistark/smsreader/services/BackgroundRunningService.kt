@@ -114,9 +114,8 @@ class BackgroundRunningService : Service() {
                         val msgs = MsgHandler(this@BackgroundRunningService).getAll()
                         if (msgs.size > 0) {
                             for (msg in msgs) {
-                                HttpPost(this@BackgroundRunningService, msg.id).execute(
-                                    apiAddress,
-                                    msg.msg
+                                HttpPost(this@BackgroundRunningService, msg).execute(
+                                    apiAddress
                                 )
                             }
                         }

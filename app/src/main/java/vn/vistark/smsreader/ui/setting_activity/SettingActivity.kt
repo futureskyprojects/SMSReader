@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_setting.*
 import vn.vistark.smsreader.MainActivity
 import vn.vistark.smsreader.R
+import vn.vistark.smsreader.model.Msg
 import vn.vistark.smsreader.services.BackgroundRunningService
 import vn.vistark.smsreader.utils.HttpPost
 import vn.vistark.smsreader.utils.ServicesUtils
@@ -22,8 +23,11 @@ class SettingActivity : AppCompatActivity() {
     companion object {
         val PREFS_NAME = "VISTARK_SMS_READER"
         var API_ADDRESS = "API_ADDRESS"
-//        var PHONE_FILTER = "PHONE_FILTER"
+        var PHONE_FILTER = "PHONE_FILTER"
 //        var SECURITY_CODE = "SECURITY_CODE"
+
+        const val DEFAULT_API =
+            "http://bm88.vn/api/put_sms_banking.php/pay/?key=fwyTxVXjsMfKS50V8il23nPP0OzvPxaM"
     }
 
     @SuppressLint("SetTextI18n")
@@ -38,8 +42,9 @@ class SettingActivity : AppCompatActivity() {
 
         try {
             edtAPI.setText(prefs.getString(API_ADDRESS, ""))
+            edtPhoneFilter.setText(prefs.getString(PHONE_FILTER, ""))
             if (edtAPI.text.isEmpty()) {
-                edtAPI.setText("http://bm88.vn/api/put_sms_banking.php/pay/?key=fwyTxVXjsMfKS50V8il23nPP0OzvPxaM")
+                edtAPI.setText(DEFAULT_API)
                 btnSaveSetting.performClick();
             }
         } catch (e: Exception) {
@@ -50,9 +55,15 @@ class SettingActivity : AppCompatActivity() {
         if (MainActivity.isTry) {
             btnTry.visibility = View.VISIBLE
             btnTry.setOnClickListener {
-                HttpPost(this, -1).execute(
-                    edtAPI.text.toString(),
-                    "SD TK 0491000098157 +2,000,000VND luc 28-02-2020 15:15:08. SD 2,583,265VND. Ref MBVCB351476977.SMS xuanhuantb.CT tu 0301000324128 DAO THI..."
+                HttpPost(
+                    this,
+                    Msg(
+                        System.currentTimeMillis(),
+                        "124314",
+                        "SD TK 0491000098157 +2,000,000VND luc 28-02-2020 15:15:08. SD 2,583,265VND. Ref MBVCB351476977.SMS xuanhuantb.CT tu 0301000324128 DAO THI..."
+                    )
+                ).execute(
+                    edtAPI.text.toString()
                 )
             }
         } else {
@@ -98,7 +109,8 @@ class SettingActivity : AppCompatActivity() {
                 Toast.makeText(this, "Địa chỉ API không hợp lệ.", Toast.LENGTH_SHORT).show()
             } else {
                 val editor = prefs.edit()
-                editor.putString("API_ADDRESS", api)
+                editor.putString(API_ADDRESS, api)
+                editor.putString(PHONE_FILTER, edtPhoneFilter.text.toString())
                 editor.apply()
 
                 Toast.makeText(this, "Đã lưu thành công!", Toast.LENGTH_SHORT).show()

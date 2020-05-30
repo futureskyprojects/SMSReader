@@ -31,25 +31,25 @@
             android:lines="5"
             android:padding="20dp" />
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:paddingTop="20dp"-->
-        <!--            android:paddingBottom="20dp"-->
-        <!--            android:text="2. Lọc đầu số"-->
-        <!--            android:textColor="#0083B0"-->
-        <!--            android:textSize="24sp"-->
-        <!--            android:textStyle="bold" />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="2. Lọc đầu số"
+            android:textColor="#0083B0"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <!--        <EditText-->
-        <!--            android:id="@+id/edtPhoneFilter"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:background="@drawable/round_input"-->
-        <!--            android:gravity="top"-->
-        <!--            android:hint="Bỏ trống để lấy tất cả tin nhắn đến. Hoặc nhập các đầu số quan tâm vào đây và phân cách bởi dấu phẩy. VD: 885,3456,123"-->
-        <!--            android:lines="5"-->
-        <!--            android:padding="20dp" />-->
+        <EditText
+            android:id="@+id/edtPhoneFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_input"
+            android:gravity="top"
+            android:hint="Bỏ trống để lấy tất cả tin nhắn đến. Hoặc nhập các đầu số quan tâm vào đây và phân cách bởi dấu phẩy. VD: 885,3456,123"
+            android:lines="5"
+            android:padding="20dp" />
 
         <!--        <TextView-->
         <!--            android:layout_width="match_parent"-->
